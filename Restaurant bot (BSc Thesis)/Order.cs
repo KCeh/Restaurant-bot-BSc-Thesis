@@ -102,11 +102,17 @@ namespace Restaurant_bot__BSc_Thesis_
         [Optional]
         public Coupon Coupon;
 
+        //first simple version
+        public static IForm<Order> BuildForm()
+        {
+            return new FormBuilder<Order>()
+                .Message("Welcome to the restaurant order bot!")
+                .Build();
+        }
+
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            
-
             //provjeriti ako je menus null???
             switch (Menus)
             {
