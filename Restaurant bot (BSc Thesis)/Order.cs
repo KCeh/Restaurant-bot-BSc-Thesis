@@ -90,7 +90,7 @@ namespace Restaurant_bot__BSc_Thesis_
         public SaladsAndSncks SaladsAndSncks;
 
         [Optional]
-        public Drinks Drinks;
+        public List<Drinks> Drinks;
 
         [Optional]
         public Desserts Desserts;
@@ -116,15 +116,15 @@ namespace Restaurant_bot__BSc_Thesis_
             switch (Menus)
             {
                 case Menus.KidsMenu:
-                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.ChickenSandwich, Drinks.AppleJuice,
+                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.ChickenSandwich, Restaurant_bot__BSc_Thesis_.Drinks.AppleJuice,
                         Desserts.IceCream,Coupon.Menu20Percent);
                     break;
                 case Menus.OriginalMenu:
-                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.Hamburger, Drinks.CokeSoda,
+                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.Hamburger, Restaurant_bot__BSc_Thesis_.Drinks.CokeSoda,
                         Desserts.Cheesecake, Coupon.Menu20Percent);
                     break;
                 case Menus.VegetarianMenu:
-                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.VeggieBurger, Drinks.IceTea,
+                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.VeggieBurger, Restaurant_bot__BSc_Thesis_.Drinks.IceTea,
                         Desserts.Cupcake, Coupon.Menu20Percent);
                     break;
                 default:

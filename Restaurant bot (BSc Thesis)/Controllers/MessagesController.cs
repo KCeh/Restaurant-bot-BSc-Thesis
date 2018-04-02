@@ -7,6 +7,7 @@ using System.Web.Http.Description;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
+using Restaurant_bot__BSc_Thesis_.Dialogs;
 
 namespace Restaurant_bot__BSc_Thesis_.Controllers
 {
@@ -15,6 +16,7 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
     {
         internal static IDialog<Order> MakeRootDialog()
         {
+            /*
             return Chain.From(() => FormDialog.FromForm(Order.BuildForm))
                 .Do(async (context, order) =>
                 {
@@ -41,6 +43,8 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
                     }
 
                 });
+                */
+            return Chain.From(() => new OrderDialog());
         }
 
         [ResponseType(typeof(void))]
