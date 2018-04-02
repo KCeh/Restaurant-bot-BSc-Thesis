@@ -9,9 +9,7 @@ using Microsoft.Bot.Builder.Luis.Models;
 
 namespace Restaurant_bot__BSc_Thesis_.Dialogs
 {
-    [LuisModel("4bdcdf2d-c797-4355-9003-6ab486c91460", "88c34c414eec43d3ab3f068892db86f1", LuisApiVersion.V2)]
-    //https://westeurope.api.cognitive.microsoft.com/luis/v2.0/apps/4bdcdf2d-c797-4355-9003-6ab486c91460?subscription-key=88c34c414eec43d3ab3f068892db86f1&verbose=true&timezoneOffset=0&q=sdf
-    //[LuisModel("4311ccf1-5ed1-44fe-9f10-a6adbad05c14", "6d0966209c6e4f6b835ce34492f3e6d9", LuisApiVersion.V2)]
+    [LuisModel("4bdcdf2d-c797-4355-9003-6ab486c91460", "88c34c414eec43d3ab3f068892db86f1", LuisApiVersion.V2, domain: "westeurope.api.cognitive.microsoft.com")]
     [Serializable]
     public class OrderDialog:LuisDialog<Order>
     {     
