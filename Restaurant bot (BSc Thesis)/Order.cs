@@ -24,8 +24,7 @@ namespace Restaurant_bot__BSc_Thesis_
 
     public enum SaladsAndSncks
     {
-        [Terms(new string[] { "salad" })]
-        CaesarSalad =1,
+        CaesarSalad=1,
         ChickenSalad,
         MashedPotatoes,
         OnionRings,
