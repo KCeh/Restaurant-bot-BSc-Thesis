@@ -15,7 +15,32 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
     {
         internal static IDialog<Order> MakeRootDialog()
         {
-            return Chain.From(() => FormDialog.FromForm(Order.BuildForm));
+            return Chain.From(() => FormDialog.FromForm(Order.BuildForm))
+                .Do(async (context, order) =>
+                {
+                    try
+                    {
+                        var completed = await order;
+                        //processing order logic
+                        await context.PostAsync("Your order has been successfully processed!");
+                        await context.PostAsync("Thanks for using Restaurant bot");
+                    }
+                    catch (FormCanceledException<Order> ex)
+                    {
+                        string reply;
+                        if (ex.InnerException == null)
+                        {
+                            reply = $"You quit on {ex.Last} -- maybe you can finish next time!";
+                        }
+                        else
+                        {
+                            reply = "Sorry, I've had a short circuit. Please try again.";
+                        }
+
+                        await context.PostAsync(reply);
+                    }
+
+                });
         }
 
         [ResponseType(typeof(void))]
