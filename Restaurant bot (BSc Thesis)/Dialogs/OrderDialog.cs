@@ -21,23 +21,33 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         }
 
         [LuisIntent("MakeOrder")]
-        public async Task Test(IDialogContext context, LuisResult result)
+        public async Task Order(IDialogContext context, LuisResult result)
         {
+            //TODO
             await context.PostAsync("Making order...");
             context.Wait(MessageReceived);
         }
 
         [LuisIntent("OrderMenu")]
-        public async Task Test2(IDialogContext context, LuisResult result)
+        public async Task Menu(IDialogContext context, LuisResult result)
         {
+            //TODO
             await context.PostAsync("menu order...");
             context.Wait(MessageReceived);
         }
 
         [LuisIntent("WorkingHours")]
-        public async Task Test3(IDialogContext context, LuisResult result)
+        public async Task WorkingHours(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync("WorkingHours...");
+            await context.PostAsync("The restaurant is open from 9:00 to 24:00, every day of the week");
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("Help")]
+        public async Task Help(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync("This is restaurant bot for ordering food and drinks!");
+            await context.PostAsync("Type order for starting ordering process");
             context.Wait(MessageReceived);
         }
     }
