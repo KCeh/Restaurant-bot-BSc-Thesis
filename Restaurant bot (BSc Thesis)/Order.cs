@@ -95,8 +95,8 @@ namespace Restaurant_bot__BSc_Thesis_
         [Optional]
         public Desserts Desserts;
 
-        [Optional]
-        public Menus Menus;
+       /* [Optional]
+        public Menus Menus;*/
 
         [Optional]
         public Coupon Coupon;
@@ -105,11 +105,11 @@ namespace Restaurant_bot__BSc_Thesis_
         public static IForm<Order> BuildForm()
         {
             return new FormBuilder<Order>()
-                .Message("Welcome to the restaurant order bot!")
+                .Message("Select iteams you want to order!")
                 .Build();
         }
 
-        public override string ToString()
+       /* public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
             //provjeriti ako je menus null???
@@ -134,6 +134,6 @@ namespace Restaurant_bot__BSc_Thesis_
             }
             //ordernumber dodati jos, adresa?
             return builder.ToString();
-        }
+        }*/
     }
 }

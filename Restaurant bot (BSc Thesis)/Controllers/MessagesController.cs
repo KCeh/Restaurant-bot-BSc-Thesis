@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -44,6 +46,7 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
 
                 });
                 */
+            //("Welcome to the restaurant order bot!")
             return Chain.From(() => new OrderDialog());
         }
 
@@ -59,6 +62,22 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
                         break;
 
                     case ActivityTypes.ConversationUpdate:
+                        //provjeri ako radi za direct line 
+                        IConversationUpdateActivity update = activity;
+                        var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
+                        if (update.MembersAdded != null && update.MembersAdded.Any())
+                        {
+                            foreach (var newMember in update.MembersAdded)
+                            {
+                                if (newMember.Id != activity.Recipient.Id)
+                                {
+                                    var reply = activity.CreateReply();
+                                    reply.Text = $"Welcome {newMember.Name}, I'm restaurant bot!";
+                                    await client.Conversations.ReplyToActivityAsync(reply);
+                                }
+                            }
+                        }
+                        break;
                     case ActivityTypes.ContactRelationUpdate:
                     case ActivityTypes.Typing:
                     case ActivityTypes.DeleteUserData:
@@ -74,7 +93,6 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
         }
 
         /*
-         template version
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
@@ -91,9 +109,10 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
-        }*/
+        }
+        
 
-            private Activity HandleSystemMessage(Activity message)
+        private Activity HandleSystemMessage(Activity message)
         {
             if (message.Type == ActivityTypes.DeleteUserData)
             {
@@ -121,5 +140,6 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
 
             return null;
         }
+        */
     }
 }
