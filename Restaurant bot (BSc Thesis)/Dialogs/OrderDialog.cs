@@ -6,6 +6,7 @@ using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Connector;
 
 namespace Restaurant_bot__BSc_Thesis_.Dialogs
 {
@@ -48,7 +49,22 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         public async Task Help(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("This is restaurant bot for ordering food and drinks! ");
-            await context.PostAsync("Type order for starting ordering process");
+            var reply = context.MakeMessage();
+            reply.Type = ActivityTypes.Message;
+            reply.Text = "Click on one suggested action to continue";
+            reply.TextFormat = TextFormatTypes.Plain;
+
+            reply.SuggestedActions = new SuggestedActions()
+            {
+                Actions = new List<CardAction>()
+                {
+                    new CardAction(){ Title = "Make order", Type=ActionTypes.ImBack, Value="order" },
+                    new CardAction(){ Title = "Order menu", Type=ActionTypes.ImBack, Value="menu" },
+                    new CardAction(){ Title = "Open hours", Type=ActionTypes.ImBack, Value="hours" }
+                }
+            };
+            
+            await context.PostAsync(reply);
             context.Wait(MessageReceived);
         }
 
