@@ -38,16 +38,25 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
 
         [LuisIntent("WorkingHours")]
         public async Task WorkingHours(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("The restaurant is open from 9:00 to 24:00, every day of the week");
+        { 
+            await context.PostAsync("The restaurant is open from 9:00 to 24:00, every day of the week.");
+            await context.PostAsync("But I'm available anytime ;)");
             context.Wait(MessageReceived);
         }
 
         [LuisIntent("Help")]
         public async Task Help(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync("This is restaurant bot for ordering food and drinks!");
+            await context.PostAsync("This is restaurant bot for ordering food and drinks! ");
             await context.PostAsync("Type order for starting ordering process");
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("Hello")]
+        public async Task Hello(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync("![bot](https://pbs.twimg.com/profile_images/833180315153608704/g_LAHGXB_400x400.jpg)");
+            await context.PostAsync("Hi I'm restaurant bot!");
             context.Wait(MessageReceived);
         }
     }
