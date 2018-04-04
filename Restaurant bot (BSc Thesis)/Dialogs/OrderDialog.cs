@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
+using Restaurant_bot__BSc_Thesis_.Controllers;
 
 namespace Restaurant_bot__BSc_Thesis_.Dialogs
 {
@@ -24,8 +26,15 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         [LuisIntent("MakeOrder")]
         public async Task Order(IDialogContext context, LuisResult result)
         {
-            //TODO
-            await context.PostAsync("Making order...");
+            var formDialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Order.BuildForm);
+            context.Call(MessagesController.MakeOrderDialog(),ResumeAfterOrderDialog);
+        }
+
+        private async Task ResumeAfterOrderDialog(IDialogContext context, IAwaitable<Order> result)
+        {
+            var order = await result;
+
+            await context.PostAsync($"Thanks for placing order. Your order is {order.ToString()}.");
             context.Wait(MessageReceived);
         }
 
@@ -54,6 +63,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             reply.Text = "Click on one suggested action to continue";
             reply.TextFormat = TextFormatTypes.Plain;
 
+            //staviti u vertikalnu  listu za ispis ???
             reply.SuggestedActions = new SuggestedActions()
             {
                 Actions = new List<CardAction>()

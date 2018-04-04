@@ -90,7 +90,7 @@ namespace Restaurant_bot__BSc_Thesis_
         public SaladsAndSncks SaladsAndSncks;
 
         [Optional]
-        public List<Drinks> Drinks;
+        public Drinks Drinks;
 
         [Optional]
         public Desserts Desserts;
@@ -105,7 +105,7 @@ namespace Restaurant_bot__BSc_Thesis_
         public static IForm<Order> BuildForm()
         {
             return new FormBuilder<Order>()
-                .Message("Select iteams you want to order!")
+                .Message("Select items you want to order!")
                 .Build();
         }
 
@@ -135,5 +135,16 @@ namespace Restaurant_bot__BSc_Thesis_
             //ordernumber dodati jos, adresa?
             return builder.ToString();
         }*/
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendFormat("{0}, {1}, {2}, {3})", Meals, SaladsAndSncks, Drinks,
+                Desserts);
+            if (Coupon != 0)
+                builder.AppendFormat("you get: {0} discount", Coupon);
+            return builder.ToString();
+        }
+        //"Is this your selection?\r\n\r\n* Meals: Hamburger\r\n* Salads And Sncks: Chicken Salad\r\n* Drinks: Lemonade\r\n* Desserts: Pudding\r\n* Coupon: Menu 20 Percent\r\n 
     }
 }
