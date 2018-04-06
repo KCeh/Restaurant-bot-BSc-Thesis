@@ -85,5 +85,12 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             await context.PostAsync("Hi I'm restaurant bot!");
             context.Wait(MessageReceived);
         }
+
+        [LuisIntent("Thanks")]
+        public async Task Thanks(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync("You're welcome");
+            context.Wait(MessageReceived);
+        }
     }
 }
