@@ -28,7 +28,7 @@ namespace Restaurant_bot__BSc_Thesis_
         ChickenSalad,
         MashedPotatoes,
         OnionRings,
-        [Terms(new string[] { "fries" })]
+        //[Terms(new string[] { "fries" })]
         PotatoFries,
         Veggies
     };
@@ -71,12 +71,6 @@ namespace Restaurant_bot__BSc_Thesis_
         VegetarianMenu
     };
 
-    public enum Coupon
-    {
-        Menu20Percent = 1,
-        HappyHour15Percent
-    };
-
     [Serializable]
     public class Order
     {
@@ -98,8 +92,8 @@ namespace Restaurant_bot__BSc_Thesis_
        /* [Optional]
         public Menus Menus;*/
 
-        [Optional]
-        public Coupon Coupon;
+       /* [Optional]
+        public Coupon Coupon;*/
 
         //first simple version
         public static IForm<Order> BuildForm()
@@ -141,8 +135,6 @@ namespace Restaurant_bot__BSc_Thesis_
             StringBuilder builder = new StringBuilder();
             builder.AppendFormat("{0}, {1}, {2}, {3})", Meals, SaladsAndSncks, Drinks,
                 Desserts);
-            if (Coupon != 0)
-                builder.AppendFormat("you get: {0} discount", Coupon);
             return builder.ToString();
         }
         //"Is this your selection?\r\n\r\n* Meals: Hamburger\r\n* Salads And Sncks: Chicken Salad\r\n* Drinks: Lemonade\r\n* Desserts: Pudding\r\n* Coupon: Menu 20 Percent\r\n 

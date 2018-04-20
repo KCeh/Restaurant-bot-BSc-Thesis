@@ -34,7 +34,72 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         {
             var order = await result;
 
-            await context.PostAsync($"Thanks for placing order. Your order is {order.ToString()}.");
+            var status = context.MakeMessage();
+            status.Type = ActivityTypes.Message;
+
+            List<ReceiptItem> receiptList = new List<ReceiptItem>();
+            ReceiptItem lineItem1 = new ReceiptItem()
+            {
+                Title = 
+                //Subtitle = "8 lbs",
+                //Text = null,
+                //Image = new CardImage(url: "https://<ImageUrl1>"),
+                //Price = "16.25",
+                //Quantity = "1",
+                //Tap = null
+            };
+            receiptList.Add(lineItem1);
+
+            if (order.Drinks != 0)
+            {
+                ReceiptItem lineItem2 = new ReceiptItem()
+                {
+                    Title = order.Drinks.ToString()
+                };
+                receiptList.Add(lineItem2);
+            }
+
+            if (order.SaladsAndSncks != 0)
+            {
+                ReceiptItem lineItem3 = new ReceiptItem()
+                {
+                    Title = order.SaladsAndSncks.ToString()
+                };
+                receiptList.Add(lineItem3);
+            }
+
+            if (order.Desserts != 0)
+            {
+                ReceiptItem lineItem4 = new ReceiptItem()
+                {
+                    Title = order.Desserts.ToString()
+                };
+                receiptList.Add(lineItem4);
+            }
+
+            if (order.Meals == Meals.Cheeseburger && order.Drinks== Drinks.CokeSoda 
+                                                  && order.SaladsAndSncks== SaladsAndSncks.PotatoFries)
+            {
+                ReceiptItem lineItem5 = new ReceiptItem()
+                {
+                    Title = "Discount worth 15%"
+                };
+                receiptList.Add(lineItem5);
+            }
+
+
+            ReceiptCard plCard = new ReceiptCard()
+            {
+                Title = "Thanks for placing order. Your order is: ",
+                Items = receiptList,
+                //needs DB
+                Total = "total sum",
+            };
+
+            Attachment plAttachment = plCard.ToAttachment();
+            status.Attachments.Add(plAttachment);
+            //await context.PostAsync($"Thanks for placing order. Your order is {order.ToString()}.");
+            await context.PostAsync(status);
             context.Wait(MessageReceived);
         }
 
@@ -93,5 +158,12 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             await context.PostAsync("You're welcome");
             context.Wait(MessageReceived);
         }
+
+        /*[LuisIntent("Coupon")]
+        public async Task Coupon(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync("You're welcome");
+            context.Wait(MessageReceived);
+        }*/
     }
 }

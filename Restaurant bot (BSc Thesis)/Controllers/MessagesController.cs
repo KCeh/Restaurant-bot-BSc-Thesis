@@ -29,9 +29,10 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
                 try
                 {
                     var completed = await order;
-                    //processing order logic
+                    //INSERT processing order logic here
+
                     await context.PostAsync("Your order has been successfully processed!");
-                    await context.PostAsync("Thanks for using Restaurant bot");
+                    //await context.PostAsync("Thanks for using Restaurant bot");
                 }
                 catch (FormCanceledException<Order> ex)
                 {
@@ -44,7 +45,7 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
                     {
                         reply = $"Sorry, I've had a short circuit. Please try again.{ex.StackTrace}";
                     }
-                    //problem s stanjem???
+                    //problem s stanjem??? doradit
                     await context.PostAsync(reply);
                 }
 
