@@ -60,20 +60,21 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             await context.PostAsync("This is restaurant bot for ordering food and drinks! ");
             var reply = context.MakeMessage();
             reply.Type = ActivityTypes.Message;
-            reply.Text = "Click on one suggested action to continue";
-            reply.TextFormat = TextFormatTypes.Plain;
 
-            //staviti u vertikalnu  listu za ispis ???
-            reply.SuggestedActions = new SuggestedActions()
+            //Receipt card better?
+            List<CardAction> cardButtons = new List<CardAction>();
+            cardButtons.Add(new CardAction() { Title = "Make order", Type = ActionTypes.ImBack, Value = "order" });
+            cardButtons.Add(new CardAction() { Title = "Order menu", Type = ActionTypes.ImBack, Value = "menu" });
+            cardButtons.Add(new CardAction() { Title = "Open hours", Type = ActionTypes.ImBack, Value = "hours" });
+            HeroCard plCard = new HeroCard()
             {
-                Actions = new List<CardAction>()
-                {
-                    new CardAction(){ Title = "Make order", Type=ActionTypes.ImBack, Value="order" },
-                    new CardAction(){ Title = "Order menu", Type=ActionTypes.ImBack, Value="menu" },
-                    new CardAction(){ Title = "Open hours", Type=ActionTypes.ImBack, Value="hours" }
-                }
+                Title = "Click on one suggested action to continue",
+                Buttons = cardButtons,
             };
-            
+
+            Attachment plAttachment = plCard.ToAttachment();
+            reply.Attachments.Add(plAttachment);
+
             await context.PostAsync(reply);
             context.Wait(MessageReceived);
         }
