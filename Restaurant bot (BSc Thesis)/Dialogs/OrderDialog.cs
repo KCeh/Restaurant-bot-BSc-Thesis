@@ -161,11 +161,11 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             context.Wait(MessageReceived);
         }
 
-        /*[LuisIntent("Coupon")]
+        [LuisIntent("Coupon")]
         public async Task Coupon(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync("You're welcome");
+            await context.PostAsync("You can get discount by ordering menus or by selecting Cheeseburger, Potato Fries and Coke Soda while making order");
             context.Wait(MessageReceived);
-        }*/
+        }
     }
 }
