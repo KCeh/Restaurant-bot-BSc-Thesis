@@ -40,7 +40,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             List<ReceiptItem> receiptList = new List<ReceiptItem>();
             ReceiptItem lineItem1 = new ReceiptItem()
             {
-                Title = 
+                Title = UiFriendlyString.GetMeal(order.Meals)
                 //Subtitle = "8 lbs",
                 //Text = null,
                 //Image = new CardImage(url: "https://<ImageUrl1>"),
@@ -54,7 +54,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             {
                 ReceiptItem lineItem2 = new ReceiptItem()
                 {
-                    Title = order.Drinks.ToString()
+                    Title = UiFriendlyString.GetDrinks(order.Drinks)
                 };
                 receiptList.Add(lineItem2);
             }
@@ -63,7 +63,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             {
                 ReceiptItem lineItem3 = new ReceiptItem()
                 {
-                    Title = order.SaladsAndSncks.ToString()
+                    Title = UiFriendlyString.GetSnack(order.SaladsAndSncks)
                 };
                 receiptList.Add(lineItem3);
             }
@@ -72,7 +72,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             {
                 ReceiptItem lineItem4 = new ReceiptItem()
                 {
-                    Title = order.Desserts.ToString()
+                    Title = UiFriendlyString.GetDessert(order.Desserts)
                 };
                 receiptList.Add(lineItem4);
             }
@@ -92,8 +92,10 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             {
                 Title = "Thanks for placing order. Your order is: ",
                 Items = receiptList,
-                //needs DB
-                Total = "total sum",
+                
+                //if DB is added, add code here
+                //order number???
+
             };
 
             Attachment plAttachment = plCard.ToAttachment();

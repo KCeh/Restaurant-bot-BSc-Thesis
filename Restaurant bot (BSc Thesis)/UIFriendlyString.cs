@@ -2,7 +2,7 @@
 {
     public class UiFriendlyString
     {
-        public string GetMeal(Meals meal)
+        public static string GetMeal(Meals meal)
         {
             switch (meal)
             {
@@ -20,7 +20,7 @@
             }
         }
 
-        public string GetDrinks(Drinks drink)
+        public static string GetDrinks(Drinks drink)
         {
             switch (drink)
             {
@@ -38,7 +38,7 @@
             }
         }
 
-        public string GetSnack(SaladsAndSncks snack)
+        public static string GetSnack(SaladsAndSncks snack)
         {
             switch (snack)
             {
@@ -54,7 +54,7 @@
         }
 
 
-        public string GetDessert(Desserts desserts)
+        public static string GetDessert(Desserts desserts)
         {
             switch (desserts)
             {
