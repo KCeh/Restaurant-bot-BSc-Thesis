@@ -72,5 +72,16 @@
             }
 
         }
+
+        public static string GetMenu(Menus menu)
+        {
+            switch (menu)
+            {
+                case Menus.KidsMenu: return "Kids Menu";
+                case Menus.OriginalMenu: return "Original Menu";
+                case Menus.VegetarianMenu: return "Vegetarian Menu";
+                default: return "";
+            }
+        }
     }
 }

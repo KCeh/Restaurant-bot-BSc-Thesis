@@ -26,7 +26,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         [LuisIntent("MakeOrder")]
         public async Task Order(IDialogContext context, LuisResult result)
         {
-            var formDialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Order.BuildForm);
+            //var formDialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Order.BuildForm);
             context.Call(MessagesController.MakeOrderDialog(),ResumeAfterOrderDialog);
         }
 
@@ -50,20 +50,20 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             };
             receiptList.Add(lineItem1);
 
-            if (order.Drinks != 0)
+            if (order.SaladsAndSncks != 0)
             {
                 ReceiptItem lineItem2 = new ReceiptItem()
                 {
-                    Title = UiFriendlyString.GetDrinks(order.Drinks)
+                    Title = UiFriendlyString.GetSnack(order.SaladsAndSncks)
                 };
                 receiptList.Add(lineItem2);
             }
 
-            if (order.SaladsAndSncks != 0)
+            if (order.Drinks != 0)
             {
                 ReceiptItem lineItem3 = new ReceiptItem()
                 {
-                    Title = UiFriendlyString.GetSnack(order.SaladsAndSncks)
+                    Title = UiFriendlyString.GetDrinks(order.Drinks)
                 };
                 receiptList.Add(lineItem3);
             }
@@ -100,7 +100,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
 
             Attachment plAttachment = plCard.ToAttachment();
             status.Attachments.Add(plAttachment);
-            //await context.PostAsync($"Thanks for placing order. Your order is {order.ToString()}.");
+            
             await context.PostAsync(status);
             context.Wait(MessageReceived);
         }
@@ -108,9 +108,127 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         [LuisIntent("OrderMenu")]
         public async Task Menu(IDialogContext context, LuisResult result)
         {
-            //TODO
-            await context.PostAsync("menu order...");
+            //var formDialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Menu.BuildForm);
+            context.Call(MessagesController.MakeMenuDialog(), ResumeAfterMenuDialog);
+        }
+
+        private async Task ResumeAfterMenuDialog(IDialogContext context, IAwaitable<Menu> result)
+        {
+            var menuOrder = await result;
+
+            var status = context.MakeMessage();
+            status.Type = ActivityTypes.Message;
+
+            List<ReceiptItem> receiptList = new List<ReceiptItem>();
+            ReceiptItem lineItem1 = new ReceiptItem()
+            {
+                Title = UiFriendlyString.GetMenu(menuOrder.menu) + " that contains:"
+            };
+            receiptList.Add(lineItem1);
+
+            if (menuOrder.menu == Menus.KidsMenu)
+            {
+                ReceiptItem lineItem2 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetMeal(Meals.Hamburger)
+                };
+                receiptList.Add(lineItem2);
+            }
+            else if (menuOrder.menu == Menus.OriginalMenu)
+            {
+                ReceiptItem lineItem2 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetMeal(Meals.Cheeseburger)
+                };
+                receiptList.Add(lineItem2);
+            }
+            else if (menuOrder.menu == Menus.VegetarianMenu)
+            {
+                ReceiptItem lineItem2 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetMeal(Meals.VeggieBurger)
+                };
+                receiptList.Add(lineItem2);
+            }
+
+            if (menuOrder.menu == Menus.KidsMenu)
+            {
+                ReceiptItem lineItem3 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetSnack(SaladsAndSncks.OnionRings)
+                };
+                receiptList.Add(lineItem3);
+            }
+            else if (menuOrder.menu == Menus.OriginalMenu)
+            {
+                ReceiptItem lineItem3 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetSnack(SaladsAndSncks.PotatoFries)
+                };
+                receiptList.Add(lineItem3);
+            }
+            else if (menuOrder.menu == Menus.VegetarianMenu)
+            {
+                ReceiptItem lineItem3 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetSnack(SaladsAndSncks.Veggies)
+                };
+                receiptList.Add(lineItem3);
+            }
+
+
+            if (menuOrder.menu == Menus.KidsMenu)
+            {
+                ReceiptItem lineItem4 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetDrinks(Drinks.AppleJuice)
+                };
+                receiptList.Add(lineItem4);
+            }
+            else if (menuOrder.menu == Menus.OriginalMenu)
+            {
+                ReceiptItem lineItem4 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetDrinks(Drinks.CokeSoda)
+                };
+                receiptList.Add(lineItem4);
+            }
+            else if (menuOrder.menu == Menus.VegetarianMenu)
+            {
+                ReceiptItem lineItem4 = new ReceiptItem()
+                {
+                    Title = UiFriendlyString.GetDrinks(Drinks.OrangeJuice)
+                };
+                receiptList.Add(lineItem4);
+            }
+
+            ReceiptItem lineItem5 = new ReceiptItem()
+            {
+                    Title = "Discount worth 15% for ordering menu"
+            };
+            receiptList.Add(lineItem5);
+
+
+
+            ReceiptCard plCard = new ReceiptCard()
+            {
+                Title = "Thanks for placing order. Your order is: ",
+                Items = receiptList,
+
+                //if DB is added, add code here
+                //order number???
+
+            };
+
+            Attachment plAttachment = plCard.ToAttachment();
+            status.Attachments.Add(plAttachment);
+
+            await context.PostAsync(status);
             context.Wait(MessageReceived);
+
+
+
+
         }
 
         [LuisIntent("WorkingHours")]

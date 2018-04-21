@@ -52,6 +52,11 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
             });
         }
 
+        internal static IDialog<Menu> MakeMenuDialog()
+        {
+            return Chain.From(() => FormDialog.FromForm(Menu.BuildForm, options: FormOptions.PromptInStart));
+        }
+
 
 
         [ResponseType(typeof(void))]

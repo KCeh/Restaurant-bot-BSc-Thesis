@@ -38,9 +38,7 @@ namespace Restaurant_bot__BSc_Thesis_
         AppleJuice=1,
         Cappuccino,
         ChocolateMilkshake,
-        [Terms(new string[] { "coca cola" ,"coke","soda"})]
         CokeSoda,
-        [Terms(new string[]{"coffee"})]
         Espresso,
         IceTea,
         Latte,
@@ -64,13 +62,6 @@ namespace Restaurant_bot__BSc_Thesis_
     };
 
 
-    public enum Menus
-    {
-        KidsMenu=1,
-        OriginalMenu,
-        VegetarianMenu
-    };
-
     [Serializable]
     public class Order
     {
@@ -89,12 +80,6 @@ namespace Restaurant_bot__BSc_Thesis_
         [Optional]
         public Desserts Desserts;
 
-       /* [Optional]
-        public Menus Menus;*/
-
-       /* [Optional]
-        public Coupon Coupon;*/
-
         //first simple version
         public static IForm<Order> BuildForm()
         {
@@ -102,33 +87,6 @@ namespace Restaurant_bot__BSc_Thesis_
                 .Message("Select items you want to order!")
                 .Build();
         }
-
-       /* public override string ToString()
-        {
-            StringBuilder builder = new StringBuilder();
-            //provjeriti ako je menus null???
-            switch (Menus)
-            {
-                case Menus.KidsMenu:
-                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.ChickenSandwich, Restaurant_bot__BSc_Thesis_.Drinks.AppleJuice,
-                        Desserts.IceCream,Coupon.Menu20Percent);
-                    break;
-                case Menus.OriginalMenu:
-                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.Hamburger, Restaurant_bot__BSc_Thesis_.Drinks.CokeSoda,
-                        Desserts.Cheesecake, Coupon.Menu20Percent);
-                    break;
-                case Menus.VegetarianMenu:
-                    builder.AppendFormat("Order({0}, {1}, {2}, {3})", Meals.VeggieBurger, Restaurant_bot__BSc_Thesis_.Drinks.IceTea,
-                        Desserts.Cupcake, Coupon.Menu20Percent);
-                    break;
-                default:
-                    builder.AppendFormat("Order({0}, {1}, {2}, {3}, {4})", Meals, SaladsAndSncks, Drinks,
-                        Desserts, Coupon);
-                    break;
-            }
-            //ordernumber dodati jos, adresa?
-            return builder.ToString();
-        }*/
 
         public override string ToString()
         {
