@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Bot.Connector.DirectLine;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Restaurant_web_app.Models;
+using Activity = System.Diagnostics.Activity;
 
 namespace Restaurant_web_app.Controllers
 {
@@ -33,5 +35,6 @@ namespace Restaurant_web_app.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }
