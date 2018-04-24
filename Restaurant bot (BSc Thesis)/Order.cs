@@ -22,7 +22,7 @@ namespace Restaurant_bot__BSc_Thesis_
         VeggieBurger
     };
 
-    public enum SaladsAndSncks
+    public enum SaladsAndSnacks
     {
         CaesarSalad=1,
         ChickenSalad,
@@ -72,7 +72,7 @@ namespace Restaurant_bot__BSc_Thesis_
         public Meals Meals;
 
         [Optional]
-        public SaladsAndSncks SaladsAndSncks;
+        public SaladsAndSnacks SaladsAndSnacks;
 
         [Optional]
         public Drinks Drinks;
@@ -91,7 +91,7 @@ namespace Restaurant_bot__BSc_Thesis_
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.AppendFormat("{0}, {1}, {2}, {3})", Meals, SaladsAndSncks, Drinks,
+            builder.AppendFormat("{0}, {1}, {2}, {3})", Meals, SaladsAndSnacks, Drinks,
                 Desserts);
             return builder.ToString();
         }

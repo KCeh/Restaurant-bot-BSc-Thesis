@@ -50,11 +50,11 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             };
             receiptList.Add(lineItem1);
 
-            if (order.SaladsAndSncks != 0)
+            if (order.SaladsAndSnacks != 0)
             {
                 ReceiptItem lineItem2 = new ReceiptItem()
                 {
-                    Title = UiFriendlyString.GetSnack(order.SaladsAndSncks)
+                    Title = UiFriendlyString.GetSnack(order.SaladsAndSnacks)
                 };
                 receiptList.Add(lineItem2);
             }
@@ -78,7 +78,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             }
 
             if (order.Meals == Meals.Cheeseburger && order.Drinks== Drinks.CokeSoda 
-                                                  && order.SaladsAndSncks== SaladsAndSncks.PotatoFries)
+                                                  && order.SaladsAndSnacks== SaladsAndSnacks.PotatoFries)
             {
                 ReceiptItem lineItem5 = new ReceiptItem()
                 {
@@ -155,7 +155,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             {
                 ReceiptItem lineItem3 = new ReceiptItem()
                 {
-                    Title = UiFriendlyString.GetSnack(SaladsAndSncks.OnionRings)
+                    Title = UiFriendlyString.GetSnack(SaladsAndSnacks.OnionRings)
                 };
                 receiptList.Add(lineItem3);
             }
@@ -163,7 +163,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             {
                 ReceiptItem lineItem3 = new ReceiptItem()
                 {
-                    Title = UiFriendlyString.GetSnack(SaladsAndSncks.PotatoFries)
+                    Title = UiFriendlyString.GetSnack(SaladsAndSnacks.PotatoFries)
                 };
                 receiptList.Add(lineItem3);
             }
@@ -171,7 +171,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             {
                 ReceiptItem lineItem3 = new ReceiptItem()
                 {
-                    Title = UiFriendlyString.GetSnack(SaladsAndSncks.Veggies)
+                    Title = UiFriendlyString.GetSnack(SaladsAndSnacks.Veggies)
                 };
                 receiptList.Add(lineItem3);
             }

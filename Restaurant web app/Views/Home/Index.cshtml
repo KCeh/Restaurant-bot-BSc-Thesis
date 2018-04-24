@@ -6,9 +6,25 @@
 <body>
 <div id="bot"/>
 <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+<script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
 <script>
+    var speechOptions = {
+        speechRecognizer: new CognitiveServices.SpeechRecognizer({ subscriptionKey: '2dea45fd95d445e1a16e5972e85885a0' } ),
+
+        speechSynthesizer: new CognitiveServices.SpeechSynthesizer(
+            {
+                subscriptionKey: '2dea45fd95d445e1a16e5972e85885a0',
+                gender: CognitiveServices.SynthesisGender.Female,
+                voiceName: 'Microsoft Server Speech Text to Speech Voice (en-US, JessaRUS)'
+            })
+    }
+
     BotChat.App({
-        directLine: { secret: "n_-LyKB8gsU.cwA.yLQ.Qch2-xlevKVbhCo23CJ7g1gIeSieDB4fqc404TA5yJY"},
+        //botConnection: botConnection,
+        speechOptions: speechOptions,
+        directLine: {
+            secret: "n_-LyKB8gsU.cwA.yLQ.Qch2-xlevKVbhCo23CJ7g1gIeSieDB4fqc404TA5yJY",
+        },
         user: { id: 'userid' },
         bot: { id: 'botid' },
         resize: 'detect'

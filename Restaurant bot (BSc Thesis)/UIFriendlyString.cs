@@ -38,16 +38,16 @@
             }
         }
 
-        public static string GetSnack(SaladsAndSncks snack)
+        public static string GetSnack(SaladsAndSnacks snack)
         {
             switch (snack)
             {
-                case SaladsAndSncks.CaesarSalad: return "Caesar Salad";
-                case SaladsAndSncks.ChickenSalad: return "Chicken Salad";
-                case SaladsAndSncks.MashedPotatoes: return "Mashed Potatoes";
-                case SaladsAndSncks.OnionRings: return "Onion Rings";
-                case SaladsAndSncks.PotatoFries: return "Potato Fries";
-                case SaladsAndSncks.Veggies: return "Veggies";
+                case SaladsAndSnacks.CaesarSalad: return "Caesar Salad";
+                case SaladsAndSnacks.ChickenSalad: return "Chicken Salad";
+                case SaladsAndSnacks.MashedPotatoes: return "Mashed Potatoes";
+                case SaladsAndSnacks.OnionRings: return "Onion Rings";
+                case SaladsAndSnacks.PotatoFries: return "Potato Fries";
+                case SaladsAndSnacks.Veggies: return "Veggies";
                 default: return "";
             }
 
