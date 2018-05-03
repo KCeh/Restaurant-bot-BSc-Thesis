@@ -1,14 +1,13 @@
-﻿@model string
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
 </head>
 <body>
-<div id="bot"/>
-<script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
-<script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
-<script>
+    <div id="bot" />
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
+    <script>
     var speechOptions = {
         speechRecognizer: new CognitiveServices.SpeechRecognizer(
             { subscriptionKey: '2dea45fd95d445e1a16e5972e85885a0' }),
@@ -20,7 +19,6 @@
                 voiceName: 'Microsoft Server Speech Text to Speech Voice (en-US, JessaRUS)'
             })
     }
-    //var username = @Model
 
     var botConnection = new BotChat.DirectLine({
         secret: "n_-LyKB8gsU.cwA.yLQ.Qch2-xlevKVbhCo23CJ7g1gIeSieDB4fqc404TA5yJY",
@@ -67,6 +65,6 @@
                 console.log('"changeBackgroundColor" sent');
             });
     };
-</script>
+    </script>
 </body>
 </html>

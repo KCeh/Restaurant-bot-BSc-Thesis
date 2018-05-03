@@ -80,6 +80,8 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
                             {
                                 if (newMember.Id != activity.Recipient.Id)
                                 {
+                                    if (newMember.Name == null)
+                                        newMember.Name = "User";
                                     var reply = activity.CreateReply();
                                     reply.Text = $"Welcome {newMember.Name}, I'm restaurant bot!";
                                     await client.Conversations.ReplyToActivityAsync(reply);
