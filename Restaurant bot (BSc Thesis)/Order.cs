@@ -20,6 +20,7 @@ namespace Restaurant_bot__BSc_Thesis_
         Oatmeal,
         Taco,
         VeggieBurger
+        //Number 9 with extra dip
     };
 
     public enum SaladsAndSnacks
