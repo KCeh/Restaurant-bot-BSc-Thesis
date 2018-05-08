@@ -16,6 +16,11 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        internal static IDialog<Order> MakeRootDialog()
+        {
+            return Chain.From(() => new OrderDialog());
+        }
+
         internal static IDialog<Order> MakeOrderDialog()
         {
             return Chain.From(() => FormDialog.FromForm(Order.BuildForm, options:FormOptions.PromptInStart))
@@ -60,7 +65,7 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
                 switch (activity.GetActivityType())
                 {
                     case ActivityTypes.Message:
-                        await Conversation.SendAsync(activity, MakeOrderDialog);
+                        await Conversation.SendAsync(activity, MakeRootDialog);
                         break;
 
                     case ActivityTypes.ConversationUpdate:

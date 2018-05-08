@@ -26,8 +26,14 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         [LuisIntent("MakeOrder")]
         public async Task Order(IDialogContext context, LuisResult result)
         {
-            //var formDialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Order.BuildForm);
-            context.Call(MessagesController.MakeOrderDialog(),ResumeAfterOrderDialog);
+            try
+            {
+                context.Call(MessagesController.MakeOrderDialog(), ResumeAfterOrderDialog);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         private async Task ResumeAfterOrderDialog(IDialogContext context, IAwaitable<Order> result)
