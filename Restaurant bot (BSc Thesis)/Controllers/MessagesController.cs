@@ -21,42 +21,6 @@ namespace Restaurant_bot__BSc_Thesis_.Controllers
             return Chain.From(() => new OrderDialog());
         }
 
-        internal static IDialog<Order> MakeOrderDialog()
-        {
-            return Chain.From(() => FormDialog.FromForm(Order.BuildForm, options:FormOptions.PromptInStart))
-            .Do(async (context, order) =>
-            {
-                try
-                {
-                    var completed = await order;
-                    //INSERT processing order logic here
-
-                    await context.PostAsync("Your order has been successfully processed!");
-                }
-                catch (FormCanceledException<Order> ex)
-                {
-                    string reply;
-                    if (ex.InnerException == null)
-                    {
-                        reply = $"You quit on {ex.Last} -- maybe you can finish next time!";
-                    }
-                    else
-                    {
-                        reply = $"Sorry, I've had a short circuit. Please try again.{ex.StackTrace}";
-                    }
-                    await context.PostAsync(reply);
-                }
-
-            });
-        }
-
-        internal static IDialog<Menu> MakeMenuDialog()
-        {
-            return Chain.From(() => FormDialog.FromForm(Menu.BuildForm, options: FormOptions.PromptInStart));
-        }
-
-
-
         [ResponseType(typeof(void))]
         public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
         {

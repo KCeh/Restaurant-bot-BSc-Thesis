@@ -24,22 +24,32 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         }
 
         [LuisIntent("MakeOrder")]
-        public async Task Order(IDialogContext context, LuisResult result)
+        public Task Order(IDialogContext dialogContext, LuisResult luisResult)
         {
-            try
-            {
-                context.Call(MessagesController.MakeOrderDialog(), ResumeAfterOrderDialog);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            var dialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Order.BuildForm,
+                options: FormOptions.PromptInStart);
+            dialogContext.Call(dialog,
+                async (context, result) =>
+                {
+                    try
+                    {
+                        var order = await result;
+                        await CompletedOrder(order, dialogContext);
+                    }
+                    catch (FormCanceledException)
+                    {
+                        context.Wait(MessageReceived);
+                        return;
+                    }
+
+                    context.Wait(MessageReceived);
+                });
+
+            return Task.CompletedTask;
         }
 
-        private async Task ResumeAfterOrderDialog(IDialogContext context, IAwaitable<Order> result)
+        private async Task CompletedOrder(Order order, IDialogContext context)
         {
-            var order = await result;
-
             var status = context.MakeMessage();
             status.Type = ActivityTypes.Message;
 
@@ -47,12 +57,6 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             ReceiptItem lineItem1 = new ReceiptItem()
             {
                 Title = UiFriendlyString.GetMeal(order.Meals)
-                //Subtitle = "8 lbs",
-                //Text = null,
-                //Image = new CardImage(url: "https://<ImageUrl1>"),
-                //Price = "16.25",
-                //Quantity = "1",
-                //Tap = null
             };
             receiptList.Add(lineItem1);
 
@@ -83,8 +87,8 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
                 receiptList.Add(lineItem4);
             }
 
-            if (order.Meals == Meals.Cheeseburger && order.Drinks== Drinks.CokeSoda 
-                                                  && order.SaladsAndSnacks== SaladsAndSnacks.PotatoFries)
+            if (order.Meals == Meals.Cheeseburger && order.Drinks == Drinks.CokeSoda
+                                                  && order.SaladsAndSnacks == SaladsAndSnacks.PotatoFries)
             {
                 ReceiptItem lineItem5 = new ReceiptItem()
                 {
@@ -98,30 +102,45 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             {
                 Title = "Thanks for placing order. Your order is: ",
                 Items = receiptList,
-                
-                //if DB is added, add code here
-                //order number???
 
+                //if DB is added, add code here
             };
 
             Attachment plAttachment = plCard.ToAttachment();
             status.Attachments.Add(plAttachment);
-            
+
             await context.PostAsync(status);
             context.Wait(MessageReceived);
         }
 
+
         [LuisIntent("OrderMenu")]
-        public async Task Menu(IDialogContext context, LuisResult result)
+        public Task Menu(IDialogContext dialogContext, LuisResult luisResult)
         {
-            //var formDialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Menu.BuildForm);
-            context.Call(MessagesController.MakeMenuDialog(), ResumeAfterMenuDialog);
+            var dialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Menu.BuildForm,
+                options: FormOptions.PromptInStart);
+            dialogContext.Call(dialog,
+                async (context, result) =>
+                {
+                    try
+                    {
+                        Menu menu = await result;
+                        await CompletedMenu(menu, dialogContext);
+                    }
+                    catch (FormCanceledException)
+                    {
+                        context.Wait(MessageReceived);
+                        return;
+                    }
+
+                    context.Wait(MessageReceived);
+                });
+
+            return Task.CompletedTask;
         }
 
-        private async Task ResumeAfterMenuDialog(IDialogContext context, IAwaitable<Menu> result)
+        private async Task CompletedMenu(Menu menuOrder, IDialogContext context)
         {
-            var menuOrder = await result;
-
             var status = context.MakeMessage();
             status.Type = ActivityTypes.Message;
 
@@ -210,7 +229,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
 
             ReceiptItem lineItem5 = new ReceiptItem()
             {
-                    Title = "Discount worth 15% for ordering menu"
+                Title = "Discount worth 15% for ordering menu"
             };
             receiptList.Add(lineItem5);
 
@@ -222,8 +241,6 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
                 Items = receiptList,
 
                 //if DB is added, add code here
-                //order number???
-
             };
 
             Attachment plAttachment = plCard.ToAttachment();
@@ -231,10 +248,6 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
 
             await context.PostAsync(status);
             context.Wait(MessageReceived);
-
-
-
-
         }
 
         [LuisIntent("WorkingHours")]
@@ -252,7 +265,6 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             var reply = context.MakeMessage();
             reply.Type = ActivityTypes.Message;
 
-            //Receipt card better?
             List<CardAction> cardButtons = new List<CardAction>();
             cardButtons.Add(new CardAction() { Title = "Make order", Type = ActionTypes.ImBack, Value = "order" });
             cardButtons.Add(new CardAction() { Title = "Order menu", Type = ActionTypes.ImBack, Value = "menu" });
