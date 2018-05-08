@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Autofac;
 using System.Web.Http;
-using System.Web.Routing;
+using System.Configuration;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 
 namespace Restaurant_bot__BSc_Thesis_
 {
