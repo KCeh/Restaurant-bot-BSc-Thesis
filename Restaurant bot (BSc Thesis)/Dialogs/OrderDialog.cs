@@ -34,12 +34,21 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
                     try
                     {
                         var order = await result;
-                        await CompletedOrder(order, dialogContext);
+                        //await CompletedOrder(order, dialogContext);
                     }
-                    catch (FormCanceledException)
+                    catch (FormCanceledException<Order> ex)
                     {
-                        context.Wait(MessageReceived);
-                        return;
+
+                        string reply;
+                        if (ex.InnerException == null)
+                        {
+                            reply = $"You quit on {ex.Last} -- maybe you can finish next time!";
+                        }
+                        else
+                        {
+                            reply = $"Sorry, I've had a short circuit. Please try again.{ex.StackTrace}";
+                        }
+                        await context.PostAsync(reply);
                     }
 
                     context.Wait(MessageReceived);
@@ -119,18 +128,28 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         {
             var dialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Menu.BuildForm,
                 options: FormOptions.PromptInStart);
+
             dialogContext.Call(dialog,
                 async (context, result) =>
                 {
                     try
                     {
                         Menu menu = await result;
-                        await CompletedMenu(menu, dialogContext);
+                        //await CompletedMenu(menu, dialogContext);
                     }
-                    catch (FormCanceledException)
+                    catch (FormCanceledException<Menu> ex)
                     {
-                        context.Wait(MessageReceived);
-                        return;
+
+                        string reply;
+                        if (ex.InnerException == null)
+                        {
+                            reply = $"You quit on {ex.Last} -- maybe you can finish next time!";
+                        }
+                        else
+                        {
+                            reply = $"Sorry, I've had a short circuit. Please try again.{ex.StackTrace}";
+                        }
+                        await context.PostAsync(reply);
                     }
 
                     context.Wait(MessageReceived);
