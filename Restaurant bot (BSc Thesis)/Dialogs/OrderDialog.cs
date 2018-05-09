@@ -114,6 +114,101 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
                     context.Wait(MessageReceived);
                 });
         }
+        [LuisIntent("Salad")]
+        public async Task Salad(IDialogContext dialogContext, LuisResult luisResult)
+        {
+            Order state = new Order();
+            state.Meals = Meals.None;//not needed
+            var dialog = new FormDialog<Order>(state, Order.BuildForm, FormOptions.PromptInStart);
+
+            dialogContext.Call(dialog,
+                async (context, result) =>
+                {
+                    try
+                    {
+                        var order = await result;
+
+                        var status = context.MakeMessage();
+                        status.Type = ActivityTypes.Message;
+
+                        List<ReceiptItem> receiptList = new List<ReceiptItem>();
+                        ReceiptItem lineItem1 = new ReceiptItem()
+                        {
+                            Title = UiFriendlyString.GetMeal(order.Meals)
+                        };
+                        if (lineItem1.Title != "")
+                            receiptList.Add(lineItem1);
+
+                        if (order.SaladsAndSnacks != 0)
+                        {
+                            ReceiptItem lineItem2 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetSnack(order.SaladsAndSnacks)
+                            };
+                            if (lineItem2.Title != "")
+                                receiptList.Add(lineItem2);
+                        }
+
+                        if (order.Drinks != 0)
+                        {
+                            ReceiptItem lineItem3 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDrinks(order.Drinks)
+                            };
+                            if (lineItem3.Title != "")
+                                receiptList.Add(lineItem3);
+                        }
+
+                        if (order.Desserts != 0)
+                        {
+                            ReceiptItem lineItem4 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDessert(order.Desserts)
+                            };
+                            if (lineItem4.Title != "")
+                                receiptList.Add(lineItem4);
+                        }
+
+                        if (order.Meals == Meals.Cheeseburger && order.Drinks == Drinks.CokeSoda
+                                                              && order.SaladsAndSnacks == SaladsAndSnacks.PotatoFries)
+                        {
+                            ReceiptItem lineItem5 = new ReceiptItem()
+                            {
+                                Title = "Discount worth 15%"
+                            };
+                            receiptList.Add(lineItem5);
+                        }
+
+
+                        ReceiptCard plCard = new ReceiptCard()
+                        {
+                            Title = "Thanks for placing order. Your order is: ",
+                            Items = receiptList,
+
+                            //if DB is added, add code here
+                        };
+
+                        Attachment plAttachment = plCard.ToAttachment();
+                        status.Attachments.Add(plAttachment);
+
+                        await context.PostAsync(status);
+                    }
+                    catch (FormCanceledException<Order> ex)
+                    {
+                        string reply;
+                        if (ex.InnerException == null)
+                        {
+                            reply = $"You quit on {ex.Last} -- maybe you can finish next time!";
+                        }
+                        else
+                        {
+                            reply = $"Sorry, I've had a short circuit. Please try again.{ex.StackTrace}";
+                        }
+                        await context.PostAsync(reply);
+                    }
+                    context.Wait(MessageReceived);
+                });
+        }
 
         [LuisIntent("Drink")]
         public async Task Drink(IDialogContext dialogContext, LuisResult luisResult)
@@ -139,6 +234,104 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
                             Title = UiFriendlyString.GetMeal(order.Meals)
                         };
                         if(lineItem1.Title!="")
+                            receiptList.Add(lineItem1);
+
+                        if (order.SaladsAndSnacks != 0)
+                        {
+                            ReceiptItem lineItem2 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetSnack(order.SaladsAndSnacks)
+                            };
+                            if (lineItem2.Title != "")
+                                receiptList.Add(lineItem2);
+                        }
+
+                        if (order.Drinks != 0)
+                        {
+                            ReceiptItem lineItem3 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDrinks(order.Drinks)
+                            };
+                            if (lineItem3.Title != "")
+                                receiptList.Add(lineItem3);
+                        }
+
+                        if (order.Desserts != 0)
+                        {
+                            ReceiptItem lineItem4 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDessert(order.Desserts)
+                            };
+                            if (lineItem4.Title != "")
+                                receiptList.Add(lineItem4);
+                        }
+
+                        if (order.Meals == Meals.Cheeseburger && order.Drinks == Drinks.CokeSoda
+                                                              && order.SaladsAndSnacks == SaladsAndSnacks.PotatoFries)
+                        {
+                            ReceiptItem lineItem5 = new ReceiptItem()
+                            {
+                                Title = "Discount worth 15%"
+                            };
+                            receiptList.Add(lineItem5);
+                        }
+
+
+                        ReceiptCard plCard = new ReceiptCard()
+                        {
+                            Title = "Thanks for placing order. Your order is: ",
+                            Items = receiptList,
+
+                            //if DB is added, add code here
+                        };
+
+                        Attachment plAttachment = plCard.ToAttachment();
+                        status.Attachments.Add(plAttachment);
+
+                        await context.PostAsync(status);
+                    }
+                    catch (FormCanceledException<Order> ex)
+                    {
+                        string reply;
+                        if (ex.InnerException == null)
+                        {
+                            reply = $"You quit on {ex.Last} -- maybe you can finish next time!";
+                        }
+                        else
+                        {
+                            reply = $"Sorry, I've had a short circuit. Please try again.{ex.StackTrace}";
+                        }
+                        await context.PostAsync(reply);
+                    }
+                    context.Wait(MessageReceived);
+                });
+        }
+
+        [LuisIntent("Dessert")]
+        public async Task Dessert(IDialogContext dialogContext, LuisResult luisResult)
+        {
+            Order state = new Order();
+            state.Meals = Meals.None;//not needed
+            state.SaladsAndSnacks = SaladsAndSnacks.None;
+            state.Drinks = Drinks.None;
+            var dialog = new FormDialog<Order>(state, Order.BuildForm, FormOptions.PromptInStart);
+
+            dialogContext.Call(dialog,
+                async (context, result) =>
+                {
+                    try
+                    {
+                        var order = await result;
+
+                        var status = context.MakeMessage();
+                        status.Type = ActivityTypes.Message;
+
+                        List<ReceiptItem> receiptList = new List<ReceiptItem>();
+                        ReceiptItem lineItem1 = new ReceiptItem()
+                        {
+                            Title = UiFriendlyString.GetMeal(order.Meals)
+                        };
+                        if (lineItem1.Title != "")
                             receiptList.Add(lineItem1);
 
                         if (order.SaladsAndSnacks != 0)
