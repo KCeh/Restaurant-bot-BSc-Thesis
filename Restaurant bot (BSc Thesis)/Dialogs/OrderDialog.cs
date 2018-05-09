@@ -24,21 +24,81 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
         }
 
         [LuisIntent("MakeOrder")]
-        public Task Order(IDialogContext dialogContext, LuisResult luisResult)
+        public async Task Order(IDialogContext dialogContext, LuisResult luisResult)
         {
             var dialog = FormDialog.FromForm(Restaurant_bot__BSc_Thesis_.Order.BuildForm,
                 options: FormOptions.PromptInStart);
+
             dialogContext.Call(dialog,
                 async (context, result) =>
                 {
                     try
                     {
                         var order = await result;
-                        //await CompletedOrder(order, dialogContext);
+
+                        var status = context.MakeMessage();
+                        status.Type = ActivityTypes.Message;
+
+                        List<ReceiptItem> receiptList = new List<ReceiptItem>();
+                        ReceiptItem lineItem1 = new ReceiptItem()
+                        {
+                            Title = UiFriendlyString.GetMeal(order.Meals)
+                        };
+                        receiptList.Add(lineItem1);
+
+                        if (order.SaladsAndSnacks != 0)
+                        {
+                            ReceiptItem lineItem2 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetSnack(order.SaladsAndSnacks)
+                            };
+                            receiptList.Add(lineItem2);
+                        }
+
+                        if (order.Drinks != 0)
+                        {
+                            ReceiptItem lineItem3 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDrinks(order.Drinks)
+                            };
+                            receiptList.Add(lineItem3);
+                        }
+
+                        if (order.Desserts != 0)
+                        {
+                            ReceiptItem lineItem4 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDessert(order.Desserts)
+                            };
+                            receiptList.Add(lineItem4);
+                        }
+
+                        if (order.Meals == Meals.Cheeseburger && order.Drinks == Drinks.CokeSoda
+                                                              && order.SaladsAndSnacks == SaladsAndSnacks.PotatoFries)
+                        {
+                            ReceiptItem lineItem5 = new ReceiptItem()
+                            {
+                                Title = "Discount worth 15%"
+                            };
+                            receiptList.Add(lineItem5);
+                        }
+
+
+                        ReceiptCard plCard = new ReceiptCard()
+                        {
+                            Title = "Thanks for placing order. Your order is: ",
+                            Items = receiptList,
+
+                            //if DB is added, add code here
+                        };
+
+                        Attachment plAttachment = plCard.ToAttachment();
+                        status.Attachments.Add(plAttachment);
+
+                        await context.PostAsync(status);
                     }
                     catch (FormCanceledException<Order> ex)
                     {
-
                         string reply;
                         if (ex.InnerException == null)
                         {
@@ -50,78 +110,9 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
                         }
                         await context.PostAsync(reply);
                     }
-
                     context.Wait(MessageReceived);
                 });
-
-            return Task.CompletedTask;
         }
-
-        private async Task CompletedOrder(Order order, IDialogContext context)
-        {
-            var status = context.MakeMessage();
-            status.Type = ActivityTypes.Message;
-
-            List<ReceiptItem> receiptList = new List<ReceiptItem>();
-            ReceiptItem lineItem1 = new ReceiptItem()
-            {
-                Title = UiFriendlyString.GetMeal(order.Meals)
-            };
-            receiptList.Add(lineItem1);
-
-            if (order.SaladsAndSnacks != 0)
-            {
-                ReceiptItem lineItem2 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetSnack(order.SaladsAndSnacks)
-                };
-                receiptList.Add(lineItem2);
-            }
-
-            if (order.Drinks != 0)
-            {
-                ReceiptItem lineItem3 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetDrinks(order.Drinks)
-                };
-                receiptList.Add(lineItem3);
-            }
-
-            if (order.Desserts != 0)
-            {
-                ReceiptItem lineItem4 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetDessert(order.Desserts)
-                };
-                receiptList.Add(lineItem4);
-            }
-
-            if (order.Meals == Meals.Cheeseburger && order.Drinks == Drinks.CokeSoda
-                                                  && order.SaladsAndSnacks == SaladsAndSnacks.PotatoFries)
-            {
-                ReceiptItem lineItem5 = new ReceiptItem()
-                {
-                    Title = "Discount worth 15%"
-                };
-                receiptList.Add(lineItem5);
-            }
-
-
-            ReceiptCard plCard = new ReceiptCard()
-            {
-                Title = "Thanks for placing order. Your order is: ",
-                Items = receiptList,
-
-                //if DB is added, add code here
-            };
-
-            Attachment plAttachment = plCard.ToAttachment();
-            status.Attachments.Add(plAttachment);
-
-            await context.PostAsync(status);
-            context.Wait(MessageReceived);
-        }
-
 
         [LuisIntent("OrderMenu")]
         public Task Menu(IDialogContext dialogContext, LuisResult luisResult)
@@ -134,12 +125,117 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
                 {
                     try
                     {
-                        Menu menu = await result;
-                        //await CompletedMenu(menu, dialogContext);
+                        var menuOrder = await result;
+
+                        var status = context.MakeMessage();
+                        status.Type = ActivityTypes.Message;
+
+                        List<ReceiptItem> receiptList = new List<ReceiptItem>();
+                        ReceiptItem lineItem1 = new ReceiptItem()
+                        {
+                            Title = UiFriendlyString.GetMenu(menuOrder.menu) + " that contains:"
+                        };
+                        receiptList.Add(lineItem1);
+
+                        if (menuOrder.menu == Menus.KidsMenu)
+                        {
+                            ReceiptItem lineItem2 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetMeal(Meals.Hamburger)
+                            };
+                            receiptList.Add(lineItem2);
+                        }
+                        else if (menuOrder.menu == Menus.OriginalMenu)
+                        {
+                            ReceiptItem lineItem2 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetMeal(Meals.Cheeseburger)
+                            };
+                            receiptList.Add(lineItem2);
+                        }
+                        else if (menuOrder.menu == Menus.VegetarianMenu)
+                        {
+                            ReceiptItem lineItem2 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetMeal(Meals.VeggieBurger)
+                            };
+                            receiptList.Add(lineItem2);
+                        }
+
+                        if (menuOrder.menu == Menus.KidsMenu)
+                        {
+                            ReceiptItem lineItem3 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetSnack(SaladsAndSnacks.OnionRings)
+                            };
+                            receiptList.Add(lineItem3);
+                        }
+                        else if (menuOrder.menu == Menus.OriginalMenu)
+                        {
+                            ReceiptItem lineItem3 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetSnack(SaladsAndSnacks.PotatoFries)
+                            };
+                            receiptList.Add(lineItem3);
+                        }
+                        else if (menuOrder.menu == Menus.VegetarianMenu)
+                        {
+                            ReceiptItem lineItem3 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetSnack(SaladsAndSnacks.Veggies)
+                            };
+                            receiptList.Add(lineItem3);
+                        }
+
+
+                        if (menuOrder.menu == Menus.KidsMenu)
+                        {
+                            ReceiptItem lineItem4 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDrinks(Drinks.AppleJuice)
+                            };
+                            receiptList.Add(lineItem4);
+                        }
+                        else if (menuOrder.menu == Menus.OriginalMenu)
+                        {
+                            ReceiptItem lineItem4 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDrinks(Drinks.CokeSoda)
+                            };
+                            receiptList.Add(lineItem4);
+                        }
+                        else if (menuOrder.menu == Menus.VegetarianMenu)
+                        {
+                            ReceiptItem lineItem4 = new ReceiptItem()
+                            {
+                                Title = UiFriendlyString.GetDrinks(Drinks.OrangeJuice)
+                            };
+                            receiptList.Add(lineItem4);
+                        }
+
+                        ReceiptItem lineItem5 = new ReceiptItem()
+                        {
+                            Title = "Discount worth 15% for ordering menu"
+                        };
+                        receiptList.Add(lineItem5);
+
+
+
+                        ReceiptCard plCard = new ReceiptCard()
+                        {
+                            Title = "Thanks for placing order. Your order is: ",
+                            Items = receiptList,
+
+                            //if DB is added, add code here
+                        };
+
+                        Attachment plAttachment = plCard.ToAttachment();
+                        status.Attachments.Add(plAttachment);
+
+                        await context.PostAsync(status);
                     }
                     catch (FormCanceledException<Menu> ex)
                     {
-
                         string reply;
                         if (ex.InnerException == null)
                         {
@@ -156,117 +252,6 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
                 });
 
             return Task.CompletedTask;
-        }
-
-        private async Task CompletedMenu(Menu menuOrder, IDialogContext context)
-        {
-            var status = context.MakeMessage();
-            status.Type = ActivityTypes.Message;
-
-            List<ReceiptItem> receiptList = new List<ReceiptItem>();
-            ReceiptItem lineItem1 = new ReceiptItem()
-            {
-                Title = UiFriendlyString.GetMenu(menuOrder.menu) + " that contains:"
-            };
-            receiptList.Add(lineItem1);
-
-            if (menuOrder.menu == Menus.KidsMenu)
-            {
-                ReceiptItem lineItem2 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetMeal(Meals.Hamburger)
-                };
-                receiptList.Add(lineItem2);
-            }
-            else if (menuOrder.menu == Menus.OriginalMenu)
-            {
-                ReceiptItem lineItem2 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetMeal(Meals.Cheeseburger)
-                };
-                receiptList.Add(lineItem2);
-            }
-            else if (menuOrder.menu == Menus.VegetarianMenu)
-            {
-                ReceiptItem lineItem2 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetMeal(Meals.VeggieBurger)
-                };
-                receiptList.Add(lineItem2);
-            }
-
-            if (menuOrder.menu == Menus.KidsMenu)
-            {
-                ReceiptItem lineItem3 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetSnack(SaladsAndSnacks.OnionRings)
-                };
-                receiptList.Add(lineItem3);
-            }
-            else if (menuOrder.menu == Menus.OriginalMenu)
-            {
-                ReceiptItem lineItem3 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetSnack(SaladsAndSnacks.PotatoFries)
-                };
-                receiptList.Add(lineItem3);
-            }
-            else if (menuOrder.menu == Menus.VegetarianMenu)
-            {
-                ReceiptItem lineItem3 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetSnack(SaladsAndSnacks.Veggies)
-                };
-                receiptList.Add(lineItem3);
-            }
-
-
-            if (menuOrder.menu == Menus.KidsMenu)
-            {
-                ReceiptItem lineItem4 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetDrinks(Drinks.AppleJuice)
-                };
-                receiptList.Add(lineItem4);
-            }
-            else if (menuOrder.menu == Menus.OriginalMenu)
-            {
-                ReceiptItem lineItem4 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetDrinks(Drinks.CokeSoda)
-                };
-                receiptList.Add(lineItem4);
-            }
-            else if (menuOrder.menu == Menus.VegetarianMenu)
-            {
-                ReceiptItem lineItem4 = new ReceiptItem()
-                {
-                    Title = UiFriendlyString.GetDrinks(Drinks.OrangeJuice)
-                };
-                receiptList.Add(lineItem4);
-            }
-
-            ReceiptItem lineItem5 = new ReceiptItem()
-            {
-                Title = "Discount worth 15% for ordering menu"
-            };
-            receiptList.Add(lineItem5);
-
-
-
-            ReceiptCard plCard = new ReceiptCard()
-            {
-                Title = "Thanks for placing order. Your order is: ",
-                Items = receiptList,
-
-                //if DB is added, add code here
-            };
-
-            Attachment plAttachment = plCard.ToAttachment();
-            status.Attachments.Add(plAttachment);
-
-            await context.PostAsync(status);
-            context.Wait(MessageReceived);
         }
 
         [LuisIntent("WorkingHours")]
