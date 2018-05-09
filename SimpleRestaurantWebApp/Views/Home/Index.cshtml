@@ -53,6 +53,19 @@
                 console.log('"postHelp" sent');
             });
     };
+
+    function welcome() {
+        botConnection
+            .postActivity({
+                from: { id: 'userid', name: 'User' },
+                name: 'welcome',
+                type: 'event',
+                value: 'help'
+            })
+            .subscribe(function (id) {
+                console.log('"welcome" sent');
+            });
+    }
     </script>
 </body>
 </html>
