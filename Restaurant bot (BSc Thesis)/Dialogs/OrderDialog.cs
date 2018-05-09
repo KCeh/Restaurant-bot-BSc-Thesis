@@ -561,7 +561,10 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             reply.Type = ActivityTypes.Message;
 
             List<CardAction> cardButtons = new List<CardAction>();
-            cardButtons.Add(new CardAction() { Title = "Make order", Type = ActionTypes.ImBack, Value = "order" });
+            cardButtons.Add(new CardAction() { Title = "Order meal", Type = ActionTypes.ImBack, Value = "food" });
+            cardButtons.Add(new CardAction() { Title = "Order snack or salad", Type = ActionTypes.ImBack, Value = "snack" });
+            cardButtons.Add(new CardAction() { Title = "Order drink", Type = ActionTypes.ImBack, Value = "drink" });
+            cardButtons.Add(new CardAction() { Title = "Order dessert", Type = ActionTypes.ImBack, Value = "dessert" });
             cardButtons.Add(new CardAction() { Title = "Order menu", Type = ActionTypes.ImBack, Value = "menu" });
             cardButtons.Add(new CardAction() { Title = "Open hours", Type = ActionTypes.ImBack, Value = "hours" });
             HeroCard plCard = new HeroCard()
