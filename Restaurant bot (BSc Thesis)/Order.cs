@@ -7,7 +7,6 @@ using Microsoft.Bot.Builder.FormFlow;
 
 namespace Restaurant_bot__BSc_Thesis_
 {
-    // 0 value in enums is reserved for unknown values. 
     public enum Meals
     {
         Burrito=1,
@@ -19,7 +18,8 @@ namespace Restaurant_bot__BSc_Thesis_
         Kebab,
         Oatmeal,
         Taco,
-        VeggieBurger
+        VeggieBurger,
+        None
         //Number 9 with extra dip
     };
 
@@ -29,9 +29,9 @@ namespace Restaurant_bot__BSc_Thesis_
         ChickenSalad,
         MashedPotatoes,
         OnionRings,
-        //[Terms(new string[] { "fries" })]
         PotatoFries,
-        Veggies
+        Veggies,
+        None
     };
 
     public enum Drinks
@@ -45,7 +45,8 @@ namespace Restaurant_bot__BSc_Thesis_
         Latte,
         Lemonade,
         Macchiato,
-        OrangeJuice
+        OrangeJuice,
+        None
     };
 
     public enum Desserts
@@ -59,29 +60,22 @@ namespace Restaurant_bot__BSc_Thesis_
         JellyBean,
         LemonBars,
         Pudding,
-        Tiramisu
+        Tiramisu,
+        None
     };
 
 
     [Serializable]
     public class Order
     {
-        //public orderNumber -doraditi ideju
-        //adresa -> dostava za van?
-        //implementirati liste
-
         public Meals Meals;
 
-        [Optional]
         public SaladsAndSnacks SaladsAndSnacks;
 
-        [Optional]
         public Drinks Drinks;
 
-        [Optional]
         public Desserts Desserts;
 
-        //first simple version
         public static IForm<Order> BuildForm()
         {
             return new FormBuilder<Order>()
@@ -96,6 +90,5 @@ namespace Restaurant_bot__BSc_Thesis_
                 Desserts);
             return builder.ToString();
         }
-        //"Is this your selection?\r\n\r\n* Meals: Hamburger\r\n* Salads And Sncks: Chicken Salad\r\n* Drinks: Lemonade\r\n* Desserts: Pudding\r\n* Coupon: Menu 20 Percent\r\n 
     }
 }
