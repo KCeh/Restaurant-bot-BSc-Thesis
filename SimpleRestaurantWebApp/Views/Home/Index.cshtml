@@ -39,30 +39,18 @@
             bot: { id: 'botid' },
             resize: 'detect'
         },
-        document.getElementById("bot"));
+    document.getElementById("bot"));
 
-    botConnection.activity$
-        .filter(function(activity) {
-            return activity.type === 'event' && activity.name === 'changeBackgroundColor';
-        })
-        .subscribe(function(activity) {
-            changeBackgroundColor(activity.value);
-        });
-
-    function changeBackgroundColor(newColor) {
-        document.getElementsByClassName('wc-message-groups')[0].style.backgroundColor = newColor;
-    }
-
-    function postButtonMessage(color) {
+    function postHelp() {
         botConnection
             .postActivity({
-                from: { id: 'me' },
-                name: 'changeBackgroundColor',
-                type: 'event',
-                value: color
+                from: { id: 'userid', name: 'User' },
+                name: 'postHelp',
+                type: 'message',
+                text: 'help'
             })
             .subscribe(function(id) {
-                console.log('"changeBackgroundColor" sent');
+                console.log('"postHelp" sent');
             });
     };
     </script>

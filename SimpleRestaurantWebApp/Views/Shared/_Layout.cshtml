@@ -26,14 +26,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Simple Restaurant Web App</a>
+                <font color="white"><h4>Simple Restaurant Web App</h4></font>
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li> &emsp;&emsp;</li>
+                    <li>
+                        <button onclick="history.go(0);" class="navbar-btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>
+                    </li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li>
+                        <button onclick="postHelp();" class="navbar-btn btn-primary"><span class="glyphicon glyphicon-question-sign"></span> Help</button>
+
+                    </li>
                 </ul>
+
             </div>
         </div>
     </nav>
