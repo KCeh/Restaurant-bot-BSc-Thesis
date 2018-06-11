@@ -216,6 +216,7 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             Order state = new Order();
             state.Meals = Meals.None;//not needed
             state.SaladsAndSnacks=SaladsAndSnacks.None;
+            state.Desserts = Desserts.None;
             var dialog  = new FormDialog<Order>(state, Order.BuildForm, FormOptions.PromptInStart);
 
             dialogContext.Call(dialog,
@@ -313,7 +314,6 @@ namespace Restaurant_bot__BSc_Thesis_.Dialogs
             Order state = new Order();
             state.Meals = Meals.None;//not needed
             state.SaladsAndSnacks = SaladsAndSnacks.None;
-            state.Drinks = Drinks.None;
             var dialog = new FormDialog<Order>(state, Order.BuildForm, FormOptions.PromptInStart);
 
             dialogContext.Call(dialog,

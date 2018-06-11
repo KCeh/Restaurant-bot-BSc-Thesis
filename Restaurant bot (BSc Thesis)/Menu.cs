@@ -21,5 +21,11 @@ namespace Restaurant_bot__BSc_Thesis_
                 .Message("Select menu you want to order!")
                 .Build();
         }
+		
+		public override string ToString()
+        {
+            return menu.ToString();
+        }
+    }
     }
 }

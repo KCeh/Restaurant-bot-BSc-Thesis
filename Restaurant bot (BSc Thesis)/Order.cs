@@ -20,7 +20,6 @@ namespace Restaurant_bot__BSc_Thesis_
         Taco,
         VeggieBurger,
         None
-        //Number 9 with extra dip
     };
 
     public enum SaladsAndSnacks
@@ -72,9 +71,9 @@ namespace Restaurant_bot__BSc_Thesis_
 
         public SaladsAndSnacks SaladsAndSnacks;
 
-        public Drinks Drinks;
-
         public Desserts Desserts;
+
+        public Drinks Drinks;
 
         public static IForm<Order> BuildForm()
         {
